@@ -485,15 +485,16 @@ export default {
       // console.log('hahah'+JSON.stringify(this.tableData));
       let aa=[]
       let b=""
-      // let pk=""
+      let pk=""
       for(let i=0;i<this.tableData.length;i++){
         // console.log();
         if(this.tableData[i].parkinggate==""){
           b=0
-          this.tableData[i].parkinggate="nonegate"
+          pk="nonegate"
           console.log('我没分配');
         }else{
           b=1
+          pk=this.tableData[i].parkinggate
           console.log('我分配了');
         }
         aa[i]={
@@ -501,7 +502,7 @@ export default {
           model:"0",
           flightId:this.tableData[i].flightId.toString(),
           allostate:b,
-          parkinggate:this.tableData[i].parkinggate,
+          parkinggate:pk,
           userId:this.tableData[i].userId,
           updateTime:getNewtime2()
         }
