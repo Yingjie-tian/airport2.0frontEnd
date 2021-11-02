@@ -1,5 +1,5 @@
 <template>
-  <div class="loginContainer" :style="'width:'+fullwidth+'px;'">
+  <div class="loginContainer" :style="'width:' + fullwidth + 'px;'">
     <!-- 标题栏 -->
     <div class="header-top">
       <div class="header-flex">
@@ -9,19 +9,33 @@
         <div class="header-text">
           <span class="top-c">机位分配人员辅助训练系统</span>
           <br />
-          <span class="top-e">Auxiliary Training System for Aircraft Allocation Personnel</span>
+          <span class="top-e"
+            >Auxiliary Training System for Aircraft Allocation Personnel</span
+          >
         </div>
         <div class="top-login">
-          <span @click="showlogin = !showlogin;showregister=false">登录</span>
-          <span @click="showregister = !showregister;showlogin = false">注册</span>
+          <span
+            @click="
+              showlogin = !showlogin;
+              showregister = false;
+            "
+            >登录</span
+          >
+          <span
+            @click="
+              showregister = !showregister;
+              showlogin = false;
+            "
+            >注册</span
+          >
         </div>
       </div>
     </div>
     <!-- 走马灯 -->
     <div class="bottom">
       <div class="carousel">
-        <el-carousel :interval="3000" arrow="always" :height="imgHeight + 'px'">
-          <el-carousel-item v-for="(item,index) in pictrues" :key="index">
+        <el-carousel :interval="3000" arrow="always" height="100vh">
+          <el-carousel-item v-for="(item, index) in pictrues" :key="index">
             <img :src="item.url" alt="图片未加载" />
           </el-carousel-item>
         </el-carousel>
@@ -38,10 +52,19 @@
         </div>
         <!-- 表单 -->
         <!-- rules数据验证 ref返回实例对象 -->
-        <el-form ref="loginFormRef" :model="loginForm" class="loginForm" :rules="loginFormRules">
+        <el-form
+          ref="loginFormRef"
+          :model="loginForm"
+          class="loginForm"
+          :rules="loginFormRules"
+        >
           <!-- 用户名 -->
           <el-form-item class="loginUP" prop="username">
-            <el-input v-model="loginForm.username" prefix-icon="iconfont icon-user" placeholder="用户名"></el-input>
+            <el-input
+              v-model="loginForm.username"
+              prefix-icon="iconfont icon-user"
+              placeholder="用户名"
+            ></el-input>
           </el-form-item>
           <!-- 密码 -->
           <el-form-item class="loginUP" prop="password">
@@ -61,7 +84,7 @@
         </el-form>
       </div>
 
-<!-- ----------------------------------------------------------------------------------------------- -->
+      <!-- ----------------------------------------------------------------------------------------------- -->
       <!-- 注册注册10/26 -->
       <div class="registerBox" v-if="showregister">
         <!-- 退出登录按钮 -->
@@ -75,10 +98,18 @@
         </div>
         <!-- 表单 -->
         <!-- rules数据验证 ref返回实例对象 -->
-        <el-form ref="registerFormRef"  :model="registerForm" class="registerForm" :rules="registerFormRules">
+        <el-form
+          ref="registerFormRef"
+          :model="registerForm"
+          class="registerForm"
+          :rules="registerFormRules"
+        >
           <!-- 用户名 -->
           <el-form-item class="registerUP" prop="usernames">
-            <el-input v-model="registerForm.usernames" placeholder="用户名"></el-input>
+            <el-input
+              v-model="registerForm.usernames"
+              placeholder="用户名"
+            ></el-input>
           </el-form-item>
           <!-- 密码 -->
           <el-form-item class="registerUP" prop="passwords">
@@ -117,111 +148,111 @@ export default {
   data() {
     var validatePass = (rule, value, callback) => {
       // console.log('value:'+value)
-      this.getUsers()
+      this.getUsers();
       // let ulist=[]
-      for(let i=0;i<this.usersTable.length;i++){
-        this.ulist.push(this.usersTable[i].username)
+      for (let i = 0; i < this.usersTable.length; i++) {
+        this.ulist.push(this.usersTable[i].username);
       }
       // console.log('ulist:'+this.ulist)
-      for(let j=0;j<this.ulist.length;j++){
-        if(value === this.ulist[j]){
-          callback(new Error('该用户名已被注册，请重新输入'));
+      for (let j = 0; j < this.ulist.length; j++) {
+        if (value === this.ulist[j]) {
+          callback(new Error("该用户名已被注册，请重新输入"));
         }
       }
-      };
+    };
     var validatePass2 = (rule, value, callback) => {
-        // console.log('!!'+value)
-        // console.log('??'+JSON.stringify(this.registerForm.passwords))
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.registerForm.passwords) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
+      // console.log('!!'+value)
+      // console.log('??'+JSON.stringify(this.registerForm.passwords))
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.registerForm.passwords) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
     return {
       loginForm: {
         //登录表单的数据绑定对象
         username: "", //用户名
-        password: "" //密码
+        password: "", //密码
       },
-    // 10/26
-      registerForm:{
+      // 10/26
+      registerForm: {
         //注册表单的数据绑定对象
-        usernames:"",
-        passwords:"",
-        checkpasswords:""
+        usernames: "",
+        passwords: "",
+        checkpasswords: "",
       },
       //存用户数据
-      usersTable:"",
+      usersTable: "",
       //存数据库读取到的用户名
-      ulist:[],
-      ordinary:"ordinary",
+      ulist: [],
+      ordinary: "ordinary",
       //表达数据验证对象
       loginFormRules: {
         username: [
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 0, max: 10, message: "长度为0~10个字符", trigger: "blur" }
+          { min: 0, max: 10, message: "长度为0~10个字符", trigger: "blur" },
         ],
         password: [
           { required: true, message: "请输入登录密码", trigger: "blur" },
-          { min: 6, max: 10, message: "长度为6~10个字符", trigger: "blur" }
-        ]
+          { min: 6, max: 10, message: "长度为6~10个字符", trigger: "blur" },
+        ],
       },
       //注册表单数据验证对象10/26
       registerFormRules: {
         usernames: [
           { required: true, message: "请输入用户名", trigger: "blur" },
           { min: 0, max: 10, message: "长度为0~10个字符", trigger: "blur" },
-          {validator: validatePass,trigger: "blur" }
+          { validator: validatePass, trigger: "blur" },
         ],
         passwords: [
-          { required: true, message: "请输入登录密码", trigger: "blur"},
-          { min: 6, max: 10, message: "长度为6~10个字符", trigger: "blur" }
+          { required: true, message: "请输入登录密码", trigger: "blur" },
+          { min: 6, max: 10, message: "长度为6~10个字符", trigger: "blur" },
         ],
         checkpasswords: [
           // { required: true, message: "请输入重复登录密码", trigger: "blur"},
           { min: 6, max: 10, message: "长度为6~10个字符", trigger: "blur" },
-          {validator: validatePass2,trigger: "blur" }
-        ]
+          { validator: validatePass2, trigger: "blur" },
+        ],
       },
       // 控制登录表单是否显示
       showlogin: false,
       // 控制注册表单是否显示10/26
-      showregister:false,
+      showregister: false,
       // 图片的地址
       pictrues: [
         {
-          url: require("../../assets/img/0001.png")
+          url: require("../../assets/img/0001.png"),
         },
         {
-          url: require("../../assets/img/0002.png")
+          url: require("../../assets/img/0002.png"),
         },
         {
-          url: require("../../assets/img/0003.png")
-        }
+          url: require("../../assets/img/0003.png"),
+        },
       ],
       // 动态设置图片宽度
       imgHeight: "",
 
       // 屏幕宽度
-      fullwidth: document.documentElement.clientWidth
+      fullwidth: document.documentElement.clientWidth,
     };
   },
-  created(){
-    this.getUsers()
+  created() {
+    this.getUsers();
   },
-  watch:{
-    fullwidth: function(val) {
-      if(!this.timer){
-        this.fullwidth = val
-        this.timer = true
+  watch: {
+    fullwidth: function (val) {
+      if (!this.timer) {
+        this.fullwidth = val;
+        this.timer = true;
         setTimeout(function () {
-          this.timer = false
-        },400)
+          this.timer = false;
+        }, 400);
       }
-    }
+    },
   },
   methods: {
     // 发送请求-获取用户数据
@@ -233,9 +264,9 @@ export default {
         headers: {
           token: window.sessionStorage.token,
           "Content-type": "x-www-form-urlencoded;charset=UTF-8",
-          "Content-type": "application/json"
-        }
-      }).then(data => {
+          "Content-type": "application/json",
+        },
+      }).then((data) => {
         // 将数据保存到本地中
         this.usersTable = data.data;
         // console.log('//'+JSON.stringify(this.usersTable));
@@ -246,14 +277,14 @@ export default {
       //this.$refs.loginFormRef调用实例对象
       this.$refs.loginFormRef.resetFields();
     },
-    resetregisterForm(){
+    resetregisterForm() {
       this.$refs.registerFormRef.resetFields();
     },
     login() {
       let username = this.loginForm.username;
       let password = this.loginForm.password;
       //登录校验
-      this.$refs.loginFormRef.validate(async valid => {
+      this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid) return; //如果false不发送请求
         //如果校验通过，则发送请求
         await this.$axios({
@@ -261,10 +292,10 @@ export default {
           url: `http://localhost:8866/user/login?username=${username}&password=${password}`,
           headers: {
             "Content-type": "x-www-form-urlencoded;charset=UTF-8",
-            "Content-type": "application/json"
-          }
+            "Content-type": "application/json",
+          },
         })
-          .then(res => {
+          .then((res) => {
             //使用res接受返回数据
             //判断是否登录成功
             // 使用返回的code判断
@@ -286,7 +317,7 @@ export default {
                 type: "success",
                 offset: 300,
                 center: true,
-                duration: 1000
+                duration: 1000,
               });
               // 1.保存token 角色和用户名
               let token = res.data.data.token;
@@ -297,45 +328,44 @@ export default {
               this.$store.commit("set_username", usernamen);
               //2.通过编程式导航跳转页面，地址/home
               this.$router.push("/flightData");
-              this.showregister=false
+              this.showregister = false;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             // 出现异常，打印错误
-             console.log(err);
+            console.log(err);
           });
       });
     },
 
     // 10/26注册按钮
-    register(){
-      let re={
-        username:this.registerForm.usernames,
-        password:this.registerForm.passwords,
+    register() {
+      let re = {
+        username: this.registerForm.usernames,
+        password: this.registerForm.passwords,
         // checkpasswords:this.registerForm.checkpasswords,
-        name:this.ordinary
+        name: this.ordinary,
+      };
+      if (this.registerForm.checkpasswords === this.registerForm.passwords) {
+        // console.log('密码：'+this.registerForm.passwords+'chongdu:'+this.registerForm.checkpasswords)
+        this.$axios({
+          method: "post",
+          url: "http://localhost:8866/user/insertUser",
+          data: re,
+          headers: {
+            token: window.sessionStorage.token,
+            "Content-type": "x-www-form-urlencoded;charset=UTF-8",
+            "Content-type": "application/json",
+          },
+        }).then(() => {
+          //   // 关闭对话框
+          this.showregister = false;
+          this.showlogin = true;
+        });
       }
-      if(this.registerForm.checkpasswords === this.registerForm.passwords) {
-              // console.log('密码：'+this.registerForm.passwords+'chongdu:'+this.registerForm.checkpasswords)
-              this.$axios({
-                  method: "post",
-                  url: "http://localhost:8866/user/insertUser",
-                  data: re,
-                  headers: {
-                    token: window.sessionStorage.token,
-                    "Content-type": "x-www-form-urlencoded;charset=UTF-8",
-                    "Content-type": "application/json"
-                  }
-                }).then(() => {
-                  //   // 关闭对话框
-                  this.showregister = false;
-                  this.showlogin=true
-                });
-      }
-
     },
     // 动态设置图片宽度
-    setHeightSize: function() {
+    setHeightSize: function () {
       // console.log(window.innerWidth);
       let width = document.documentElement.clientWidth;
       // console.log(width);
@@ -343,16 +373,15 @@ export default {
       // let hight = document.documentElement.clientHeight;
       // console.log(hight);
       // this.imgHeight
-
     },
-    getBodyWidth(){
+    getBodyWidth() {
       window.onresize = () => {
-      return (()=>{
-        window.fullwidth = document.documentElement.clientWidth
-        this.fullwidth = window.fullwidth
-      })
-    };
-    }
+        return () => {
+          window.fullwidth = document.documentElement.clientWidth;
+          this.fullwidth = window.fullwidth;
+        };
+      };
+    },
   },
   mounted() {
     this.getBodyWidth();
@@ -360,7 +389,7 @@ export default {
     window.onresize = () => {
       this.setHeightSize();
     };
-  }
+  },
 };
 </script>
 
@@ -415,14 +444,16 @@ export default {
   }
   .bottom {
     position: relative;
-    top: -80px;
+    // top: -80px;
     left: 0px;
+    height: 100vh;
     // margin-top: -80px;
     // z-index: -1;
     // width: 100%;
     img {
-      width: 100%;
-      // height: 100%;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
     }
     // .el-carousel__item h3 {
     //   color: #475669;
@@ -452,7 +483,7 @@ export default {
       transform: translate(-50%, -50%);
     }
     //10/26
-    .registerBox{
+    .registerBox {
       z-index: 9999999;
       height: 50%;
       width: 500px;
@@ -478,7 +509,7 @@ export default {
       color: white;
     }
     //10/26
-    .registerTitle{
+    .registerTitle {
       position: absolute;
       font-size: 30px;
       left: 36%;
@@ -497,7 +528,7 @@ export default {
         justify-content: flex-end;
       }
     }
-    .registerForm{
+    .registerForm {
       position: absolute;
       top: 35%;
       width: 100%;
@@ -533,18 +564,24 @@ export default {
   /* 点击后边框会消失 */
   outline: none;
 }
-.el-form{
+.el-form {
   position: absolute;
-  z-index: 3
+  z-index: 3;
 }
-.el-message{
-  position:absolute;
-  z-index: 9999999999999999 !important
+.el-message {
+  position: absolute;
+  z-index: 9999999999999999 !important;
 }
 .loginContainer .bottom[data-v-08b4fdc3] {
-    position: relative;
-    top: -50px;
-    left: 0px;
+  position: relative;
+  /* top: -50px; */
+  left: 0px;
 }
-
+::-webkit-scrollbar {
+  width: 0 !important;
+}
+::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0;
+}
 </style>
