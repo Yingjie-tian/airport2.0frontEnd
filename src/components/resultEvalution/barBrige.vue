@@ -23,6 +23,7 @@ export default{
     mounted(){
         this.ready()
     },
+    //commit_test
     methods:{
         ready:function(){
             var echarts = require('echarts');
