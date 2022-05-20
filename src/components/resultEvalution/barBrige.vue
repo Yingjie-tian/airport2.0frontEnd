@@ -24,6 +24,7 @@ export default{
         this.ready()
     },
     //commit_test
+    //commit_test1
     methods:{
         ready:function(){
             var echarts = require('echarts');
