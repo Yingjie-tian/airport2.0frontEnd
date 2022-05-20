@@ -50,11 +50,7 @@ export default{
                     bottom: '3%',
                     containLabel: true
                 },
-               xAxis: {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: this.resData.xAxis
-                    },
+               xAxis:  this.resData.xAxis,
                 yAxis: {
                     type: 'value'
                 },

@@ -16,20 +16,7 @@
           <!-- <el-form-item  label="航班号:" prop="flightId"> -->
              <span class="hang">航班号:</span>
             <el-input v-model="queryParams.flightId" placeholder="请输入航班号" clearable size="small" />
-          <!-- </el-form-item> -->
-           <!-- <el-form-item label="日期:" prop="date">
-             <el-date-picke
-              v-model="queryParams.date"
-              type="date"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-              placeholder="选择日期">
-            </el-date-picker>
-              
-            </el-form-item>
-           <el-form-item label="运行次数:" prop="runtime">
-              <el-input v-model="queryParams.runtime" placeholder="请输入运行次数" clearable size="small" />
-            </el-form-item> -->
+      
             <div class="block">
                <span class="demonstration">日期:</span>
                <el-date-picker 
@@ -53,9 +40,7 @@
              <el-form-item>
               <el-button type="primary" icon="el-icon-search" size="mini" @click="gettable" >查询</el-button> 
               <el-button   @click="resetTable"  >重置</el-button> 
-              <!-- 2021.1.24这里是导出txt文件用的 -->
-               <!-- <el-button   type="primary" size="mini" @click="ExportData" id="daochujieguo" >导出结果</el-button>  -->
-               <!-- 2021.1.24这里是导出excel文件用的,但是只能导出所有数据,不能传参 -->
+        
               <el-button  type="primary"  size="mini"  >
                 <a href="http://localhost:8866/EvaluationResult/testDownload"
                    target="_blank"
@@ -263,8 +248,10 @@ export default {
       //2020.12.23
        queryParams:{
         flightId:undefined,
-         queryTime:undefined,
-        date:undefined
+        queryTime:undefined,
+        date:undefined,
+        page:1,
+        size:5
       },
       scoreParams:{
         userid:window.sessionStorage.usernamen,
@@ -461,72 +448,11 @@ export default {
         this.pickerOptions =  {
           disabledDate(time) {
             return( time.getTime() < (new Date(result.timeLimit[0]) - 8.64e7 ) || time.getTime() >new Date(result.timeLimit[1]))
-            // for(let i=0;i<this.dateTimeList.length;i++){
-			      // // 其中res.dateParam为获取到的需要禁用的时间
-				    //   if(time.getTime() == new Date(this.dateTimeList[i]).getTime()){
-			      //     // disabledDate属性：true为禁用，false为可用
-					  //     return true
-				    //   }
-			      // }
           }
         }
         console.log(this.pickerOptions);
-          // 渲染日期选择器
-          // let dateList = [];
-          // //封装日期的列表-显示在选择器中
-          // for (let i = 0; i < this.timePoints.length; i++) {
-          //   let date = this.timePoints[i].toString().substring(0, 11);
-          //   // 转为日期
-          //   dateList.push(new Date(date));
-          // }
-          // //minMaxDate保存了最小最大日期
-          // let minMaxDate = getMinMaxDate(dateList);
-          // let min = minMaxDate[0];
-          // this.queryDate = min;
-          // this.pickerOptions = {
-          // disabledDate(time) {
-          //     return (
-          //       time.getTime() < minMaxDate[0] || time.getTime() > minMaxDate[1]
-          //     );
-          //   },
-          // }
       })
     },
-    // getScore(){
-    //     this.$axios({
-    //     method: "get",
-    //     // 跨域调用
-    //     url: "http://localhost:8866/ScoreResult/selectScore",
-    //     headers: {
-    //       token: window.sessionStorage.token,
-    //       "Content-type": "x-www-form-urlencoded;charset=UTF-8",
-    //       "Content-type": "application/json",
-    //     },
-    //   }).then((res) => {
-    //     console.log("res")
-    //     console.log(res)
-    //     const arr = [0,0,0];
-    //      if(res.data.length == 0){
-    //        return;
-    //      }else{
-    //        res.data.forEach(function(ele) {
-    //           if (ele.model === "0"){
-    //             arr[0] = ele.score
-    //           }
-
-    //           if (ele.model === "1"){
-    //             arr[1] = ele.score
-    //           }
-
-    //           if (ele.model === "2"){
-    //             arr[2] = ele.score
-    //           }
-    //       })
-    //     this.scoreList = arr
-    //     }
-    //   })
-    // },
-  
     //获取停机位
     getparkingGate() {
       let a = [];
@@ -567,7 +493,7 @@ export default {
       },
    
     viewRendering(value){
-      if((value.key1!=null && value.key1 ) || (value.key2!=null && value.key2 ) || (value.key3!=null && value.key3 )>1){
+      if((value.key1!=null && value.key1 ) || (value.key2!=null && value.key2 ) || (value.key3!=null && value.key3 )){
         return true;
       }else{
         return false;
@@ -577,73 +503,7 @@ export default {
       var str='';
       return str+(value.key1==null?0:value.key1)+"|"+(value.key2==null?0:value.key2)+"|"+(value.key3==null?0:value.key3)
     },
-    //请求表格数据
-    // gettable() {
-    //    if (this.$store.state.testDataNameVuex === "") {
-    //       this.$message({
-    //       message: "请在航班数据页面选择测试数据！",
-    //       type: "warning",
-    //       offset: 300,
-    //       center: true,
-    //       duration: 3000,
-    //   });
-    //   }else{
-    //       if(this.queryDate == undefined && this.  queryTime == undefined){
-    //     //跳过
-    //      this.queryParams.date = undefined
-    //   }
-    //   if( this.queryDate != undefined && this.queryTime == undefined ){
-    //     this.open("请选择时间","提示");
-    //     return;
-    //   }
-    //   if( this.queryDate == undefined && this.queryTime != undefined ){
-    //     this.open("请选择日期","提示");
-    //     return;
-    //   }
-    //    if( this.queryDate != undefined && this.queryTime != undefined ){
-    //      this.queryParams.date = this.queryDate+" "+this.queryTime
-    //   }
-    //   this.$axios({
-    //     method: "get",
-    //     // 跨域调用
-    //     url: "http://localhost:8866/EvaluationResult/test",
-    //     headers: {
-    //       token: window.sessionStorage.token,
-    //       "Content-type": "x-www-form-urlencoded;charset=UTF-8",
-    //       "Content-type": "application/json",
-    //     },
-    //     params: this.queryParams
-    //   }).then((res) => {
-    //     // 将数据保存到本地中
-    //     const dataList = res.data.data.data1;
-    //     this.currentPage = 1
-    //     if(dataList !=null){
-    //       this.tempData = dataList
-    //       this.tableData = dataList.slice((this.currentPage - 1) * this.PageSize, this.currentPage * this.PageSize)
-    //       this.totalCount = dataList.length;
-    //       this.subTableData = JSON.parse(JSON.stringify(dataList));
-    //     }else{
-    //         this.tableData = this.testData;
-    //         this.subTableData = null;
-    //         this.totalCount = 0;
-    //     }
-    //   });
-    //   // 20210324获取得分
-    //   this.$axios({
-    //     method: "get",
-    //     // 跨域调用
-    //     url: "http://localhost:8866/ScoreResult/selectScore",
-    //     headers: {
-    //       token: window.sessionStorage.token,
-    //       "Content-type": "x-www-form-urlencoded;charset=UTF-8",
-    //       "Content-type": "application/json",
-    //     },
-    //     params: this.scoreParams
-    //   }).then((res) => {
-    //      this.scoreList=res.data
-    //   });
-    //   }
-    // }, 
+
     gettable() {
        if (this.$store.state.testDataNameVuex === "") {
           this.$message({
@@ -681,13 +541,11 @@ export default {
         params: this.queryParams
       }).then((res) => {
         // 将数据保存到本地中
-        const dataList = res.data.data.data1;
-        this.currentPage = 1
-        if(dataList !=null){
-          this.tempData = dataList
-          this.tableData = dataList.slice((this.currentPage - 1) * this.PageSize, this.currentPage * this.PageSize)
-          this.totalCount = dataList.length;
-          this.subTableData = JSON.parse(JSON.stringify(dataList));
+        const dataList = res.data.data;
+        this.currentPage = dataList.current;
+        if(dataList.total !==0 ){
+          this.tableData = dataList.records
+          this.totalCount = dataList.total;
         }else{
             this.tableData = this.testData;
             this.subTableData = null;
@@ -851,13 +709,16 @@ export default {
       this.PageSize = val;
       // 注意：在改变每页显示的条数时，要将页码显示到第一页
       this.currentPage = 1;
-       this.tableData = this.tempData.slice((this.currentPage - 1) * this.PageSize, this.currentPage * this.PageSize)
+      this.queryParams.page = 1;
+      this.queryParams.size = val;
+      this.gettable()
     },
     // 显示第几页
     handleCurrentChange(val) {
       // 改变默认的页数
       this.currentPage = val;
-      this.tableData = this.tempData.slice((this.currentPage - 1) * this.PageSize, this.currentPage * this.PageSize)
+      this.queryParams.page = val;
+      this.gettable()
     },
     //停机位去重
     parkinggateSortAndSet(arr) {
@@ -1697,7 +1558,8 @@ export default {
           axisLabel: { show: false },
           //min: -10,
           min: gaterow - 2,
-          max: _rawData.parkingApron.data.length,
+          max: 29,
+          // max: _rawData.parkingApron.data.length,
         },
         //自定义系列（ custom series）
         series: [
