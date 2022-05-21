@@ -1281,7 +1281,7 @@ export default {
       //***********************改(结束)*******冲突时间段bar******************************** */202
       //2021.1.23改的，写固定啦
       //gatecount = this.gateList.length + 1;
-      gatecount =46
+      gatecount =29
       console.log("----***" + gatecount);
       for (let i = 0; i < gatecount; i++) {
         this._rawData.parkingApron.data[i][0] = i;
@@ -1558,8 +1558,8 @@ export default {
           axisLabel: { show: false },
           //min: -10,
           min: gaterow - 2,
-          max: 29,
-          // max: _rawData.parkingApron.data.length,
+          // max: 29,
+          max: _rawData.parkingApron.data.length,
         },
         //自定义系列（ custom series）
         series: [
